@@ -18,7 +18,7 @@ unsigned int Vec::size() const
 Vec Vec::operator+(const Vec& rhs) const
 {
     try{
-        T new_vec;
+        Vec new_vec;
         int size = this.size();
         if(size != rhs.size()) throw ExceptionWrongDimensions;
         
@@ -29,6 +29,7 @@ Vec Vec::operator+(const Vec& rhs) const
     }
 };
 
+template <class T>
 Vec Vec::operator*(const T& rhs) const
 {
     Vec res_vec;
@@ -38,6 +39,7 @@ Vec Vec::operator*(const T& rhs) const
     }
 }
 
+template <class T>
 T& Vec::operator[](unsigned int ind)
 {
     if( ind >= this.size()) throw ExceptionIndexExceed;
@@ -48,6 +50,7 @@ T& Vec::operator[](unsigned int ind)
     }
 };
 
+template <class T>
 const T& Vec::operator[](unsigned int ind) const
 {
     if( ind >= this.size()) throw ExceptionIndexExceed;
