@@ -66,6 +66,18 @@ const T& Vec <T>::operator[](unsigned int ind) const
 };
 
 
+Vec Vec::operator,(const Vec& rhs) const {
+	Vec res_vec;
+
+	for (auto p = vals_.begin(); p != vals_.end(); p++) {
+		res_vec.push_back(*p);
+
+	}
+	for (auto q = rhs.vals_.begin(); q != rhs.vals_.end(); q++) {
+		res_vec.push_back(*q);
+
+	}
+	return res_vec;
 
 
 #endif
