@@ -19,6 +19,7 @@ Vec<T> Vec <T>::operator+(const Vec& rhs) const
         Vec<T> new_vec;
         int i = 0;
         if(vals_.size() != rhs.size()) throw ExceptionWrongDimensions();
+        if(vals_.empty()) throw ExceptionEmptyOperand();
         
         for(auto p = vals_.begin() ; p != vals_.end() ; p++ , i++)
         {
@@ -32,6 +33,7 @@ Vec<T> Vec <T>::operator+(const Vec& rhs) const
 template <class T>
 Vec<T> Vec <T>::operator*(const T& rhs) const
 {
+    if(vals_.empty()) throw ExceptionEmptyOperand();
     Vec<T> res_vec;
     for ( auto p = begin(); p != end(); p++)
     {
@@ -67,17 +69,118 @@ const T& Vec <T>::operator[](unsigned int ind) const
 
 template <class T>
 Vec<T> Vec<T>::operator,(const Vec<T>& rhs) const {
-	Vec<T> res_vec;
+    Vec<T> res_vec;
 
-	for (auto p = vals_.begin(); p != vals_.end(); p++) {
-		res_vec.push_back(*p);
+    for (auto p = vals_.begin(); p != vals_.end(); p++) {
+        res_vec.push_back(*p);
 
-	}
-	for (auto q = rhs.vals_.begin(); q != rhs.vals_.end(); q++) {
-		res_vec.push_back(*q);
+    }
+    for (auto q = rhs.vals_.begin(); q != rhs.vals_.end(); q++) {
+        res_vec.push_back(*q);
 
-	}
-	return res_vec;
+    }
+    return res_vec;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+template <class T>
+Vec<T> operator*(const T& lhs, const Vec<T>& rhs)
+{
+    if(rhs.size() == 0) throw ExceptionEmptyOperand();
+    Vec<T> new_vec;
+    for( auto p = rhs.begin() ; p != rhs.end() ; p++)
+    {
+        new_vec.push_back(*p * lhs);
+    }
+
+    return new_vec;
+}
+
+
+template <class T>
+ostream& operator<<(ostream& ro, const Vec<T>& v)
+{
+    int i = 0 ,size;
+    size = v.size;
+    if(size == 0) throw ExceptionEmptyOperand();
+    ro << "(";
+    for(auto p = v.begin() ; p != v.end() ; p++ , i++)
+    {
+        if(i < size - 1 ) ro << *p << "," << "\t" ;
+        else ro << *p ;
+    }
+    ro << ")" << endl ;
+    return ro ;
+}
+
 
 
 #endif
