@@ -11,7 +11,7 @@ void Vec <T>::push_back(T el)
 template <class T>
 unsigned int Vec <T>::size() const
 {
-    return vals_.size();
+    return static_cast<unsigned int>(vals_.size());
 };
 template <class T>
 Vec<T> Vec <T>::operator+(const Vec& rhs) const
@@ -20,7 +20,7 @@ Vec<T> Vec <T>::operator+(const Vec& rhs) const
         int i = 0;
         if(vals_.size() != rhs.size()) throw ExceptionWrongDimensions();
         if(vals_.empty()) throw ExceptionEmptyOperand();
-        
+
         for(auto p = vals_.begin() ; p != vals_.end() ; p++ , i++)
         {
             new_vec.push_back( *p + rhs[i]);
@@ -75,7 +75,7 @@ Vec<T> Vec<T>::operator,(const Vec<T>& rhs) const {
         res_vec.push_back(*p);
 
     }
-    for (auto q = rhs.vals_.begin(); q != rhs.vals_.end(); q++) {
+    for (auto q = rhs.begin(); q != rhs.end(); q++) {
         res_vec.push_back(*q);
 
     }
@@ -87,8 +87,8 @@ Vec<T> Vec<T>::operator,(const Vec<T>& rhs) const {
 template <class T>
 Vec<T> Vec<T>::operator[](const Vec<unsigned int>& ind) const {
 	Vec<T> res_vec;
-	int i = 0 , size;
-	size = size();
+	int i = 0 , size ;
+	size = vals_.size();
 	for (auto p = ind.begin(); p != ind.end(); p++) {
 		if (*p >= size) throw ExceptionIndexExceed();
 		for (auto q = begin(); q != end(); q++, i++) {
@@ -120,7 +120,7 @@ template <class T>
 ostream& operator<<(ostream& ro, const Vec<T>& v)
 {
     int i = 0 ,size;
-    size = v.size;
+    size = v.size();
     if(size == 0) throw ExceptionEmptyOperand();
     ro << "(";
     for(auto p = v.begin() ; p != v.end() ; p++ , i++)
@@ -138,7 +138,7 @@ Vec<T> range(T start, unsigned int size) {
 	Vec<T> vec_res;
 	if (size == 0) return vec_res;
 	for (int  i = 0 ; i < size  ; i++) {
-		vec_res.vals_.push_back(i+start);
+		vec_res.push_back( i + start);
 	}
 	return vec_res;
 }
