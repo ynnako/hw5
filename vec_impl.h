@@ -65,9 +65,9 @@ const T& Vec <T>::operator[](unsigned int ind) const
     }
 };
 
-
-Vec Vec::operator,(const Vec& rhs) const {
-	Vec res_vec;
+template <class T>
+Vec<T> Vec<T>::operator,(const Vec<T>& rhs) const {
+	Vec<T> res_vec;
 
 	for (auto p = vals_.begin(); p != vals_.end(); p++) {
 		res_vec.push_back(*p);
