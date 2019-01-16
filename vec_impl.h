@@ -84,71 +84,22 @@ Vec<T> Vec<T>::operator,(const Vec<T>& rhs) const {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+template <class T>
+Vec<T> Vec<T>::operator[](const Vec<unsigned int>& ind) const {
+	Vec<T> res_vec;
+	int i = 0 , size;
+	size = size();
+	for (auto p = ind.begin(); p != ind.end(); p++) {
+		if (*p >= size) throw ExceptionIndexExceed();
+		for (auto q = begin(); q != end(); q++, i++) {
+			if (i == *p) {
+				res_vec.push_back(*q);
+				break;
+			}
+		}
+	}
+	return res_vec;
+}
 
 
 template <class T>
@@ -182,5 +133,14 @@ ostream& operator<<(ostream& ro, const Vec<T>& v)
 }
 
 
+template <class T>
+Vec<T> range(T start, unsigned int size) {
+	Vec<T> vec_res;
+	if (size == 0) return vec_res;
+	for (int  i = 0 ; i < size  ; i++) {
+		vec_res.vals_.push_back(i+start);
+	}
+	return vec_res;
+}
 
 #endif
