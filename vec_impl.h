@@ -16,24 +16,24 @@ unsigned int Vec <T>::size() const
 template <class T>
 Vec<T> Vec <T>::operator+(const Vec& rhs) const
 {
-    try{
-        Vec new_vec;
-        if(vals_.size() != rhs.size()) throw ExceptionWrongDimensions;
+        Vec<T> new_vec;
+        int i = 0;
+        if(vals_.size() != rhs.size()) throw ExceptionWrongDimensions();
         
-        for(auto p = vals_.begin() ; p != vals_.end() ; p++ i++)
+        for(auto p = vals_.begin() ; p != vals_.end() ; p++ , i++)
         {
             new_vec.push_back( *p + rhs[i]);
         }
 
         return new_vec;
-    }
+
 };
 
 template <class T>
 Vec<T> Vec <T>::operator*(const T& rhs) const
 {
-    Vec res_vec;
-    for ( auto p = this.begin(); p != this.end(); p++)
+    Vec<T> res_vec;
+    for ( auto p = begin(); p != end(); p++)
     {
         res_vec.push_back(*p * rhs) ;
     }
@@ -42,9 +42,10 @@ Vec<T> Vec <T>::operator*(const T& rhs) const
 template <class T>
 T& Vec <T>::operator[](unsigned int ind)
 {
-    if( ind >= this.size()) throw ExceptionIndexExceed;
+    if( ind >= size()) throw ExceptionIndexExceed();
     int i = 0;
-    for( auto p = this.begin() ; i <= ind ; p++ , i++ )
+    typename list<T>::iterator p;
+    for(p = vals_.begin(); i <= ind && p != vals_.end() ; p++ , i++ )
     {
         if( i == ind) return *p;
     }
@@ -53,11 +54,14 @@ T& Vec <T>::operator[](unsigned int ind)
 template <class T>
 const T& Vec <T>::operator[](unsigned int ind) const
 {
-    if( ind >= vals_.size()) throw ExceptionIndexExceed;
+    if( ind >= size()) throw ExceptionIndexExceed();
+
     int i = 0;
-    for( auto p = this.begin() ; i <= ind ; p++ , i++ )
+    for( auto p = begin() ; i <= ind ; p++ , i++ )
     {
-        if( i == ind) return const *p;
+        if( i == ind) {
+            return *p;
+        }
     }
 };
 
