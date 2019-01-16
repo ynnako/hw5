@@ -3,44 +3,44 @@
 
 
 template <class T>
-void Vec::push_back(T el)
+void Vec <T>::push_back(T el)
 {
     vals_.push_back(el);
-}
+};
 
-unsigned int Vec::size() const
+template <class T>
+unsigned int Vec <T>::size() const
 {
-    unsigned int size = 0;
-    for(auto p = this.begin() ; p != this.end() ; p++ , i++);
-    return i;
-}
-
-Vec Vec::operator+(const Vec& rhs) const
+    return vals_.size();
+};
+template <class T>
+Vec<T> Vec <T>::operator+(const Vec& rhs) const
 {
     try{
         Vec new_vec;
-        int size = this.size();
-        if(size != rhs.size()) throw ExceptionWrongDimensions;
+        if(vals_.size() != rhs.size()) throw ExceptionWrongDimensions;
         
-        for(int i = 0 ; i < size ; i++)
+        for(auto p = vals_.begin() ; p != vals_.end() ; p++ i++)
         {
-            new_vec.push_back(this[i] + rhs[i]);
+            new_vec.push_back( *p + rhs[i]);
         }
+
+        return new_vec;
     }
 };
 
 template <class T>
-Vec Vec::operator*(const T& rhs) const
+Vec<T> Vec <T>::operator*(const T& rhs) const
 {
     Vec res_vec;
     for ( auto p = this.begin(); p != this.end(); p++)
     {
         res_vec.push_back(*p * rhs) ;
     }
-}
+};
 
 template <class T>
-T& Vec::operator[](unsigned int ind)
+T& Vec <T>::operator[](unsigned int ind)
 {
     if( ind >= this.size()) throw ExceptionIndexExceed;
     int i = 0;
@@ -51,15 +51,15 @@ T& Vec::operator[](unsigned int ind)
 };
 
 template <class T>
-const T& Vec::operator[](unsigned int ind) const
+const T& Vec <T>::operator[](unsigned int ind) const
 {
-    if( ind >= this.size()) throw ExceptionIndexExceed;
+    if( ind >= vals_.size()) throw ExceptionIndexExceed;
     int i = 0;
     for( auto p = this.begin() ; i <= ind ; p++ , i++ )
     {
         if( i == ind) return const *p;
     }
-}
+};
 
 
 
