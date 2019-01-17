@@ -14,7 +14,7 @@ unsigned int Vec <T>::size() const
     return static_cast<unsigned int>(vals_.size());
 };
 template <class T>
-Vec<T> Vec <T>::operator+(const Vec& rhs) const
+Vec<T> Vec <T>::operator+(const Vec<T>& rhs) const
 {
         Vec<T> new_vec;
         int i = 0;
