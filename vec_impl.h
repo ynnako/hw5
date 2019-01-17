@@ -1,6 +1,11 @@
 #ifndef _VEC_IMP_H_
 #define _VEC_IMP_H_
 
+template <class T>
+Vec<T>::Vec(const T& el)
+{
+    vals_.push_front(el);
+}
 
 template <class T>
 void Vec <T>::push_back(T el)
