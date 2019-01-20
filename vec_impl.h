@@ -17,8 +17,7 @@ const char* ExceptionIndexExceed::what() const throw()
     return "index exeeds operand dimensions";
 }
 
-//template <class T>
-//Vec<T>::Vec() {}
+
 
 template <class T>
 Vec<T>::Vec(const T& el)
@@ -30,13 +29,14 @@ template <class T>
 void Vec <T>::push_back(T el)
 {
     vals_.push_back(el);
-};
+}
 
 template <class T>
 unsigned int Vec <T>::size() const
 {
     return static_cast<unsigned int>(vals_.size());
-};
+}
+
 template <class T>
 Vec<T> Vec <T>::operator+(const Vec<T>& rhs) const
 {
@@ -52,7 +52,7 @@ Vec<T> Vec <T>::operator+(const Vec<T>& rhs) const
 
         return new_vec;
 
-};
+}
 
 template <class T>
 Vec<T> Vec <T>::operator*(const T& rhs) const
@@ -64,7 +64,7 @@ Vec<T> Vec <T>::operator*(const T& rhs) const
         res_vec.push_back(*p * rhs) ;
     }
     return res_vec;
-};
+}
 
 template <class T>
 T& Vec <T>::operator[](unsigned int ind)
@@ -77,7 +77,7 @@ T& Vec <T>::operator[](unsigned int ind)
         if( i == ind) return *p;
     }
     throw ExceptionIndexExceed();
-};
+}
 
 template <class T>
 const T& Vec <T>::operator[](unsigned int ind) const
@@ -156,7 +156,7 @@ ostream& operator<<(ostream& ro, const Vec<T>& v)
         if(i < size - 1 ) ro << *p << ",\t" ;
         else ro << *p ;
     }
-    ro << ")" << endl ;
+    ro << ")";
     return ro ;
 }
 
