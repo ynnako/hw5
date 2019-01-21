@@ -77,10 +77,10 @@ Mat<T> Mat<T>::operator*(const Mat<T>& rhs) const
     if(width() != rhs.height())throw ExceptionWrongDimensions();
     Mat<T> new_mat(width());
 
-    for(auto p_left_row = this->begin() , p_right_row = rhs.begin()  ; p_left_row != this->end() && p_right_row != rhs.end() ; p_left_row++ )
+    for(auto p_left_row = this->begin() ; p_left_row != this->end()  ; p_left_row++ )
     {
         Vec<T> tmp_vec;
-        for(auto p_left_row_el = p_left_row->begin() ; p_left_row_el != p_left_row->end() ; p_left_row_el++)
+        for(auto p_left_row_el = p_left_row->begin() , p_right_row = rhs.begin() ; p_left_row_el != p_left_row->end()  && p_right_row != rhs.end() ; p_right_row++ , p_left_row_el++)
         {
             if(p_left_row_el == p_left_row->begin()) tmp_vec = ( (*p_left_row_el) * (*p_right_row) );
             else tmp_vec = (tmp_vec + ( (*p_left_row_el) * (*p_right_row) ));
