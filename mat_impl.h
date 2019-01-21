@@ -19,20 +19,23 @@ w_(w)
 template <class T>
 Mat<T>::Mat(Vec<T> vec_1d)
 {
-    this->push_back(vec_1d);
     w_ = vec_1d.size();
     if(w_ < 1 ) throw ExceptionEmptyOperand();
+    this->push_back(vec_1d);
 }
 template <class T>
 
 Mat<T>::Mat(Vec< Vec<T> > vec_2d)
 {
-    for( auto p_rows = vec_2d.begin() ; p_rows != vec_2d.end(); p_rows++)
+    auto p_rows = vec_2d.begin();
+    w_ = *p_rows.size();
+    if(w_ < 1 ) throw ExceptionEmptyOperand();
+    for(  ; p_rows != vec_2d.end(); p_rows++)
     {
+        if(*p_rows.size() != w_)throw ExceptionWrongDimensions();
         this->push_back(*p_rows);
     }
-    w_ = vec_2d.width();
-    if(w_ < 1 ) throw ExceptionEmptyOperand();
+
 }
 template <class T>
 unsigned int Mat<T>::width() const
@@ -63,6 +66,7 @@ Mat<T> Mat<T>::operator+(const Mat<T>& rhs) const
 template <class T>
 Mat<T> Mat<T>::operator*(const T& rhs) const
 {
+    if(this->width() < 1 || this->height() < 1)throw ExceptionEmptyOperand();
     Mat<T> new_mat(width());
     for(auto p = this->begin() ; p != this->end() ; p++)
     {
@@ -74,6 +78,7 @@ Mat<T> Mat<T>::operator*(const T& rhs) const
 template <class T>
 Mat<T> Mat<T>::operator*(const Mat<T>& rhs) const
 {
+    if(rhs.width() < 1 || rhs.height() < 1 || height() < 1 || width() < 1 ) throw ExceptionEmptyOperand();
     if(width() != rhs.height())throw ExceptionWrongDimensions();
     Mat<T> new_mat(width());
 
@@ -95,10 +100,11 @@ template <class T>
 Mat<T> Mat<T>::operator,(const Mat<T>& rhs) const
 {
 
-    if(w_ < 1 ) throw ExceptionEmptyOperand();
-    if( w_ != rhs.width()) throw ExceptionWrongDimensions();
+    if(this->height() < 1 || this->width() < 1 || rhs.width() < 1 || rhs.height() < 1) throw ExceptionEmptyOperand();
+    if( this->width() != rhs.width()) throw ExceptionWrongDimensions();
 
-    Mat<T> new_mat(*this);
+    Mat<T> new_mat(this->width());
+    new_mat = *this;
 
     for(auto p_row = rhs.begin(); p_row != rhs.end() ; p_row++)
     {
@@ -111,9 +117,9 @@ Mat<T> Mat<T>::operator,(const Mat<T>& rhs) const
 template <class T>
 Mat<T> Mat<T>::get_rows(const Vec<unsigned int>& ind) const
 {
-    if(ind.size() < 1 )throw ExceptionEmptyOperand();
+    if(ind.size() < 1 || this->width() < 1 || this->height() < 1 )throw ExceptionEmptyOperand();
     Mat<T> new_mat(ind.size());
-    int h = height();
+    int h = this->height();
     unsigned int i;
     for(auto p_vec_el = ind.begin() ; p_vec_el != ind.end() ; p_vec_el ++)
     {
@@ -130,7 +136,7 @@ Mat<T> Mat<T>::get_rows(const Vec<unsigned int>& ind) const
 template <class T>
 Mat<T> Mat<T>::get_cols(const Vec<unsigned int>& ind) const
 {
-    if(ind.size() < 1 )throw ExceptionEmptyOperand();
+    if(ind.size() < 1 || this->width() < 1 || this->height() < 1 )throw ExceptionEmptyOperand();
     Mat<T> new_mat(ind.size());
 
     unsigned int i;
@@ -155,13 +161,13 @@ Mat<T> Mat<T>::get_cols(const Vec<unsigned int>& ind) const
 template <class T>
 Mat<T>  Mat<T>::transpose() const
 {
-    int wdth = this->width();
-    if( wdth < 1 ) throw ExceptionEmptyOperand();
+    int width = this->width();
+    if( width < 1  || this->height() < 1) throw ExceptionEmptyOperand();
 
-    Mat<T> new_mat(wdth);
+    Mat<T> new_mat(width);
 
 
-    for( unsigned int i = 0 ; i < wdth ; i++)
+    for( unsigned int i = 0 ; i < width ; i++)
     {
         Vec<T> tmp_v;
         for(auto p_row = this->begin() ; p_row != this->end() ; p_row++)
@@ -193,7 +199,7 @@ template <class T>
 ostream& operator<<(ostream& ro, const Mat<T>& m)
 {
     unsigned int  i =0 , size = m.size();
-    if(size < 1) throw ExceptionEmptyOperand();
+    if(size < 1 || m.height() < 1) throw ExceptionEmptyOperand();
     ro << "(" << endl;
     for(auto p_row = m.begin() ; p_row != m.end() && i < size ; i++ , p_row++)
     {
