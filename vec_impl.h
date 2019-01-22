@@ -171,4 +171,25 @@ Vec<T> range(T start, unsigned int size) {
 	return vec_res;
 }
 
+template <class T>
+class norm_inf_comp
+{
+public:
+    bool operator()(const Vec<T> lhs , const Vec<T> rhs )
+    {
+        T max_l = 0 , max_r = 0 ;
+        for(auto left_el = lhs.begin() ; left_el != lhs.end() ; left_el++)
+        {
+            if(max_l < abs(*left_el)) max_l = abs(*left_el);
+        }
+
+        for(auto right_el = rhs.begin() ; right_el != rhs.end() ; right_el++)
+        {
+            if(max_r < abs(*right_el)) max_r = abs(*right_el);
+        }
+        return max_l < max_r ;
+    }
+};
+
+
 #endif
