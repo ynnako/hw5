@@ -50,7 +50,7 @@ unsigned int Mat<T>::height() const
 }
 
 template <class T>
-Mat<T> Mat<T>::operator+(const Mat<T>& rhs) const
+Mat<T> Mat<T>::operator+(const Mat& rhs) const
 {
     Mat<T> new_mat(w_);
     for(auto p = this->begin() , r = rhs.begin() ; p != this->end() && r != rhs.end() ; p++ , r++)

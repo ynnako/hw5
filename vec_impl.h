@@ -133,14 +133,8 @@ Vec<T> Vec<T>::operator[](const Vec<unsigned int>& ind) const {
 template <class T>
 Vec<T> operator*(const T& lhs, const Vec<T>& rhs)
 {
-    if(rhs.size() == 0) throw ExceptionEmptyOperand();
-    Vec<T> new_vec;
-    for( auto p = rhs.begin() ; p != rhs.end() ; p++)
-    {
-        new_vec.push_back(*p * lhs);
-    }
-
-    return new_vec;
+   if(rhs.size() == 0) throw ExceptionEmptyOperand();
+   return rhs * lhs;
 }
 
 

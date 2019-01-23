@@ -5,6 +5,9 @@
 #ifndef _COMPLEX_H_
 #define _COMPLEX_H_
 
+#include <iostream>
+
+using namespace std;
 
 class Complex
 {
@@ -19,7 +22,6 @@ class Complex
         Complex operator + (const Complex& rhs) const;
         Complex operator * (const Complex& rhs) const;
         Complex operator - (const Complex& rhs) const;
-        Complex operator = (const Complex& rhs) const;
         bool operator == (const Complex& rhs) const;
         bool operator < (const Complex& rhs);
         double im()const;
@@ -28,6 +30,6 @@ class Complex
 
 };
 
-
+ostream& operator<<(ostream& ro, const Complex& comp);
 
 #endif //HW5_COMPLEX_H
