@@ -24,7 +24,6 @@ class Complex
         bool operator < (const Complex& rhs);
         double im()const;
         double re()const;
-        double abs(const Complex val) const;
 
 
 };
