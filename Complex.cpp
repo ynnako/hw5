@@ -31,6 +31,7 @@ Complex Complex::operator*(const Complex &rhs) const {
 }
 
 Complex Complex::operator-(const Complex &rhs) const {
+
     double real , img ;
     real = m_re - rhs.re();
     img = m_im - rhs.im();
@@ -38,18 +39,25 @@ Complex Complex::operator-(const Complex &rhs) const {
 }
 
 bool Complex::operator==(const Complex &rhs) const {
-    return false;
+	bool equal;
+	if (this->m_re != rhs.m_re || this->m_im != rhs.m_im) equal = 0;
+	else equal = 1;
+
+    return equal ;
 }
 
 bool Complex::operator<(const Complex &rhs) {
-    return false;
+	double abs_square_left = ( this->m_re * this->m_re ) + ( this->m_im * this->m_im );
+	double abs_square_right = (rhs.m_re * rhs.m_re) + (rhs.m_im * rhs.m_im);
+
+	return abs_square_left < abs_square_right;
 }
 
 double Complex::im() const {
-    return 0;
+    return m_im;
 }
 
 double Complex::re() const {
-    return 0;
+    return m_re;
 }
 
