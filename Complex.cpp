@@ -61,3 +61,8 @@ double Complex::re() const {
     return m_re;
 }
 
+ostream& operator<<(ostream& ro, const Complex& comp) {
+	ro << comp.re << " + " << comp.im << "i" ;
+
+	return ro;
+}
