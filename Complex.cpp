@@ -2,7 +2,7 @@
 // Created by Yonatan on 1/22/2019.
 //
 
-#include "Complex.h"
+#include "complex.h"
 
 Complex::Complex():
 m_re(0), m_im(0)
@@ -16,27 +16,6 @@ Complex::Complex(double r, double i):
 m_re(r), m_im(i)
 {}
 
-Complex Complex::operator+(const Complex &rhs) const {
-    double real , img ;
-    real = m_re + rhs.re();
-    img = m_im + rhs.im();
-    return Complex(real , img);
-}
-
-Complex Complex::operator*(const Complex &rhs) const {
-    double img , real;
-    real = m_re * rhs.re() - m_im * rhs.im();
-    img = m_re * rhs.im() + m_im * rhs.re();
-    return Complex(real , img);
-}
-
-Complex Complex::operator-(const Complex &rhs) const {
-
-    double real , img ;
-    real = m_re - rhs.re();
-    img = m_im - rhs.im();
-    return Complex(real , img);
-}
 
 bool Complex::operator==(const Complex &rhs) const {
 	bool equal;
@@ -61,8 +40,29 @@ double Complex::re() const {
     return m_re;
 }
 
-ostream& operator<<(ostream& ro, const Complex& comp) {
-	ro << comp.re << " + " << comp.im << "i" ;
 
+Complex operator+(const Complex &lhs, const Complex &rhs) {
+	return Complex(lhs.re() + rhs.re() , lhs.im() + rhs.im());
+}
+
+
+Complex operator*(const Complex &lhs, const Complex &rhs) {
+
+    return Complex(lhs.re() * rhs.re() - lhs.im() * rhs.im() , lhs.re() * rhs.im() + lhs.im() * rhs.re());
+}
+
+
+Complex operator-(const Complex &lhs, const Complex &rhs) {
+    return Complex(lhs.re() - rhs.re() , lhs.im() - rhs.im());
+}
+
+
+ostream& operator<<(ostream& ro, const Complex& comp) {
+	ro << comp.re() << " + " << comp.im() << "i" ;
 	return ro;
+}
+
+
+double abs_c_square(const Complex &c){
+    return c.re() * c.re() + c.im() * c.im() ;
 }

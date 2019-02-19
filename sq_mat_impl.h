@@ -9,8 +9,13 @@
 
 template <class T>
 SqMat<T>::SqMat(Mat<T> m):
-Mat<T>(m){
-    if(this->height() != this->width()) throw ExceptionWrongDimensions();
+Mat<T>(m.width())
+{
+    if(m.height() != m.width()) throw ExceptionWrongDimensions();
+    for(auto p_row = m.begin() ; p_row != m.end() ; p_row++)
+    {
+        this->push_back(*p_row);
+    }
 }
 
 template <class T>
@@ -40,7 +45,7 @@ T SqMat<T>::determinant() const {
         SqMat<T> SqMat_calc (tmp_SqMat.get_cols( (ind1, ind2) ));
         if(i % 2) exp = -1 ;
         else exp = 1 ;
-		det_res +=  exp * (*(this->begin()))[i] * SqMat_calc.determinant() ;
+		det_res = det_res + (*(this->begin()))[i] * SqMat_calc.determinant() * exp ;
 	}
 	return det_res;
 }

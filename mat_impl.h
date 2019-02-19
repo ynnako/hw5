@@ -52,7 +52,7 @@ unsigned int Mat<T>::height() const
 template <class T>
 Mat<T> Mat<T>::operator+(const Mat& rhs) const
 {
-    Mat<T> new_mat(w_);
+    Mat<T> new_mat(width());
     for(auto p = this->begin() , r = rhs.begin() ; p != this->end() && r != rhs.end() ; p++ , r++)
     {
         new_mat.push_back(*p + *r);
@@ -75,17 +75,23 @@ template <class T>
 Mat<T> Mat<T>::operator*(const Mat<T>& rhs) const
 {
     if(width() != rhs.height())throw ExceptionWrongDimensions();
-    Mat<T> new_mat(width());
+    Mat<T> new_mat(rhs.width());
 
-    for(auto p_left_row = this->begin() ; p_left_row != this->end()  ; p_left_row++ )
+    for(auto p_left_row = this->begin() ; p_left_row != this->end()  ; p_left_row++  )
     {
         Vec<T> tmp_vec;
-        for(auto p_left_row_el = p_left_row->begin() , p_right_row = rhs.begin() ; p_left_row_el != p_left_row->end()  && p_right_row != rhs.end() ; p_right_row++ , p_left_row_el++)
+        auto p_right_row = rhs.begin();
+        for(int i = 0 ;p_right_row != rhs.end() && i < width() ; i++ , p_right_row++)
         {
-            if(p_left_row_el == p_left_row->begin()) tmp_vec = ( (*p_left_row_el) * (*p_right_row) );
-            else tmp_vec = (tmp_vec + ( (*p_left_row_el) * (*p_right_row) ));
+            if( i == 0) tmp_vec =  ((*p_left_row)[i] * (*p_right_row));
+            else tmp_vec = tmp_vec + ((*p_left_row)[i] * (*p_right_row));
         }
-        new_mat.push_back( tmp_vec );
+//        for(auto p_left_row_el = p_left_row->begin() , p_right_row = rhs.begin() ; p_left_row_el != p_left_row->end()  && p_right_row != rhs.end() ; p_right_row++ , p_left_row_el++)
+//        {
+//            if(p_left_row_el == p_left_row->begin()) tmp_vec = ( (*p_left_row_el) * (*p_right_row) );
+//            else tmp_vec = (tmp_vec + ( (*p_left_row_el) * (*p_right_row) ));
+//        }
+        new_mat.push_back(tmp_vec);
     }
     return new_mat;
 }
@@ -134,8 +140,6 @@ Mat<T> Mat<T>::get_cols(const Vec<unsigned int>& ind) const
 {
     Mat<T> new_mat(ind.size());
 
-    unsigned int i;
-
     for(auto p_row = this->begin() ; p_row != this->end() ; p_row++)
     {
         new_mat.push_back((*p_row)[ind]);
@@ -148,18 +152,14 @@ template <class T>
 Mat<T>  Mat<T>::transpose() const
 {
     int width = this->width();
-    Mat<T> new_mat(width);
-    int j = 0;
+    Mat<T> new_mat(height());
 
     for( unsigned int i = 0 ; i < width ; i++)
     {
         Vec<T> tmp_v;
-        for(auto p_row = this->begin() ; p_row != this->end() ; p_row++ ,j = 0)
+        for(auto p_row = this->begin() ; p_row != this->end() ; p_row++ )
         {
-            for(auto p_row_el = p_row->begin() ; p_row_el != p_row->end() && i >= j ; p_row_el++ , j++)
-            {
-                if(i == j) tmp_v.push_back(*p_row_el);
-            }
+            tmp_v.push_back((*p_row)[i]);
         }
         new_mat.push_back(tmp_v);
     }
@@ -188,7 +188,7 @@ ostream& operator<<(ostream& ro, const Mat<T>& m)
         if(i < size - 1) ro << *p_row << "," << endl ;
         else ro << *p_row << endl;
     }
-    ro << ")" << endl;
+    ro << ")";
 
     return ro;
 }

@@ -19,9 +19,6 @@ class Complex
         Complex();
         Complex(double r);
         Complex(double r , double i);
-        Complex operator + (const Complex& rhs) const;
-        Complex operator * (const Complex& rhs) const;
-        Complex operator - (const Complex& rhs) const;
         bool operator == (const Complex& rhs) const;
         bool operator < (const Complex& rhs);
         double im()const;
@@ -30,6 +27,13 @@ class Complex
 
 };
 
+Complex operator + (const Complex& lhs , const Complex& rhs);
+
+Complex operator * (const Complex& lhs , const Complex& rhs);
+
+Complex operator - (const Complex& lhs , const Complex& rhs);
+
 ostream& operator<<(ostream& ro, const Complex& comp);
 
+double abs_c_square(const Complex &c);
 #endif //HW5_COMPLEX_H

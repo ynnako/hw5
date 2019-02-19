@@ -1,6 +1,6 @@
 #ifndef _VEC_IMP_H_
 #define _VEC_IMP_H_
-
+#include "complex.h"
 
 const char* ExceptionWrongDimensions::what() const throw()
 {
@@ -115,17 +115,11 @@ template <class T>
 Vec<T> Vec<T>::operator[](const Vec<unsigned int>& ind) const {
 	Vec<T> res_vec;
 	int i = 0 , size ;
-	size = vals_.size();
-	for (auto p = ind.begin(); p != ind.end(); p++) {
-		if (*p >= size) throw ExceptionIndexExceed();
-		for (auto q = begin(); q != end(); q++, i++) {
-			if (i == *p) {
-				res_vec.push_back(*q);
-				i = 0;
-				break;
-			}
-		}
-	}
+	size = ind.size();
+	//size = vals_.size();
+	for( i = 0 ; i < size ; i++) {
+        res_vec.push_back((*this)[ind[i]]);
+    }
 	return res_vec;
 }
 
@@ -134,7 +128,12 @@ template <class T>
 Vec<T> operator*(const T& lhs, const Vec<T>& rhs)
 {
    if(rhs.size() == 0) throw ExceptionEmptyOperand();
-   return rhs * lhs;
+   Vec<T> res;
+   for(auto p_el = rhs.begin() ; p_el != rhs.end() ; p_el++)
+   {
+       res.push_back(*p_el * lhs);
+   }
+   return res;
 }
 
 
@@ -160,10 +159,11 @@ Vec<T> range(T start, unsigned int size) {
 	Vec<T> vec_res;
 	if (size == 0) return vec_res;
 	for (int  i = 0 ; i < size  ; i++) {
-		vec_res.push_back( i + start);
+		vec_res.push_back( start + i);
 	}
 	return vec_res;
 }
+
 
 template <class T>
 class norm_inf_comp
@@ -174,12 +174,12 @@ public:
         T max_l = 0 , max_r = 0 ;
         for(auto left_el = lhs.begin() ; left_el != lhs.end() ; left_el++)
         {
-            if(max_l < abs(*left_el)) max_l = abs(*left_el);
+            if(max_l < abs_c_square(*left_el)) max_l = abs_c_square(*left_el);
         }
 
         for(auto right_el = rhs.begin() ; right_el != rhs.end() ; right_el++)
         {
-            if(max_r < abs(*right_el)) max_r = abs(*right_el);
+            if(max_r < abs_c_square(*right_el)) max_r = abs_c_square(*right_el);
         }
         return max_l < max_r ;
     }
